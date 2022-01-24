@@ -85,20 +85,20 @@ client.on("message", async msg => {
                 data.forEach(e => {
                     if(e.body.pseudo == msg.member.displayName){
                         userid = e.id;
+                        axios.put('http://localhost:3000/posts/' + userid , {
+                            method : "PUT",
+                            headers : {
+                                "Content-Type" : "application/json",
+                            },
+                            body : {
+                                pseudo : e.body.pseudo,
+                                Money : parseInt(e.body.Money, 10) + parseInt(args, 10),
+                    
+                            },
+                            mode: "cors",
+                            credentials : "same-origin",
+                        })
                     }
-                    axios.put('http://localhost:3000/posts/' + userid , {
-                        method : "PUT",
-                        headers : {
-                            "Content-Type" : "application/json",
-                        },
-                        body : {
-                            pseudo : e.body.pseudo,
-                            Money : parseInt(e.body.Money, 10) + parseInt(args, 10),
-                
-                        },
-                        mode: "cors",
-                        credentials : "same-origin",
-                    })
                 })
             }).then(() => {
                     msg.reply(args + '€' + ' ont été ajouté a votre solde')
