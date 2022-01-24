@@ -1,13 +1,13 @@
 {
   "posts": [
     {
-      "method": "POST",
+      "method": "PUT",
       "headers": {
         "Content-Type": "application/json"
       },
       "body": {
         "pseudo": "Yass",
-        "Money": 0
+        "Money": 180
       },
       "mode": "cors",
       "credentials": "same-origin",

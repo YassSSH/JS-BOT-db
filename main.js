@@ -46,6 +46,8 @@ client.on("message", async msg => {
         })
     }
 
+    var userid ;
+
 
     const start = {
         method : "POST",
@@ -66,7 +68,7 @@ client.on("message", async msg => {
 
     if(cmd == "start"){
         axios.post('http://localhost:3000/posts', start).then(() => {
-            
+            msg.reply('Vous etes inscrit !')
         }).catch((err) => {
             msg.reply(err)
         })
@@ -77,11 +79,31 @@ client.on("message", async msg => {
                 methodget()
     }
 
-
+    if(cmd == "add"){
+            axios.get('http://localhost:3000/posts').then((ress) => {
+                data = ress.data;
+                data.forEach(e => {
+                    if(e.body.pseudo == msg.member.displayName){
+                        userid = e.id;
+                    }
+                    axios.put('http://localhost:3000/posts/' + userid , {
+                        method : "PUT",
+                        headers : {
+                            "Content-Type" : "application/json",
+                        },
+                        body : {
+                            pseudo : e.body.pseudo,
+                            Money : parseInt(e.body.Money, 10) + parseInt(args, 10),
+                
+                        },
+                        mode: "cors",
+                        credentials : "same-origin",
+                    })
+                })
+            }).then(() => {
+                    msg.reply(args + '€' + ' ont été ajouté a votre solde')
+                })
+        }
     
-
-
-
-
 
 });
