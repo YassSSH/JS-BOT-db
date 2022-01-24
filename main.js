@@ -25,6 +25,28 @@ client.on("message", async msg => {
     const args = msg.content.slice(PREFIX.length).trim().split(' ');
     const cmd = args.shift().toLowerCase();
 
+    const methodget = () => {
+        axios.get('http://localhost:3000/posts').then((res) => {
+            data = res.data;
+            data.forEach(e => {
+                if (e.body.pseudo == msg.member.displayName){
+                    const embed = new Discord.MessageEmbed()
+                    .setTitle("Profil")
+                    .setThumbnail(msg.author.displayAvatarURL({ size: 256 }))
+                    .addField("Pseudo : " + e.body.pseudo, "____")
+                    .addField("Money : " + e.body.Money + "€", "____")
+                    .setTimestamp()
+                    .setImage("https://raw.githubusercontent.com/YassSSH/YassSSH/master/standard%20(1).gif")
+                    .setFooter("Yass#2255")
+                    .setFooter(msg.guild.owner.user.tag, msg.guild.owner.user.avatarURL())
+                    .setColor(7419530)
+        
+                msg.channel.send(embed);
+            }})
+        })
+    }
+
+
     const start = {
         method : "POST",
         headers : {
@@ -52,27 +74,9 @@ client.on("message", async msg => {
     }
 
     if(cmd == "show"){
-        axios.get('http://localhost:3000/posts').then((res) => {
-            data = res.data;
-            data.forEach(e => {
-                if (e.body.pseudo == msg.member.displayName){
-                    const embed = new Discord.MessageEmbed()
-                    .setTitle("Profil")
-                    .setThumbnail(msg.author.displayAvatarURL({ size: 256 }))
-                    .addField("Pseudo : " + e.body.pseudo, "____")
-                    .addField("Money : " + e.body.Money + "€", "____")
-                    .setTimestamp()
-                    .setImage("https://raw.githubusercontent.com/YassSSH/YassSSH/master/standard%20(1).gif")
-                    .setFooter("Yass#2255")
-                    .setFooter(msg.guild.owner.user.tag, msg.guild.owner.user.avatarURL())
-                    .setColor(7419530)
-        
-                msg.channel.send(embed)
-                }
-                
-            });
-        })
+                methodget()
     }
+
 
     
 
